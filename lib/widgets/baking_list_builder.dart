@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'recipe_item.dart';
 import '../models/recipe_item_model.dart';
-// import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import './countdown_timer_model.dart';
 
 class BakingListBuilder extends StatefulWidget {
@@ -17,7 +16,6 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
   bool showTimer = false;
   bool _isPaused = false;
   int timerUntilNext = 0;
-  CountDownController _controller = CountDownController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,25 +48,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
             ? Column(
                 children: <Widget>[
                   Center(
-                    child: CircularCountDownTimer(
-                      duration: (timerUntilNext ~/ 1000).toInt(),
-                      controller: _controller,
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.height / 3,
-                      color: Colors.white,
-                      fillColor: Colors.red,
-                      backgroundColor: null,
-                      strokeWidth: 10.0,
-                      textStyle: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                      isReverse: true,
-                      isTimerTextShown: true,
-                      onComplete: () {
-                        print('Countdown Ended');
-                      },
-                    ),
+                    child: CountdownTimer(),
                   ),
                   Row(
                     children: <Widget>[
@@ -77,10 +57,8 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                             setState(() {
                               if (_isPaused) {
                                 _isPaused = false;
-                                _controller.resume();
                               } else {
                                 _isPaused = true;
-                                _controller.pause();
                               }
                             });
                           },
