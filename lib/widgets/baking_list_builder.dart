@@ -37,8 +37,8 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                     setState(() {
                       recipeItem.toggleDone();
                       if (recipeItem.isDone == true) {
-                        showTimer = true;
                         timer.setRemainingTime(recipeItem.milisecondsUntilNext);
+                        showTimer = true;
                       } else {
                         showTimer = false;
                       }
@@ -48,32 +48,29 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
             itemCount: widget.recipeList.length,
           ),
         ),
-        showTimer
-            ? Column(
-                children: <Widget>[
-                  Center(
-                    child: CountdownTimer(initialTime: timerUntilNext),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      FloatingActionButton.extended(
-                          onPressed: () {
-                            setState(() {
-                              if (_isPaused) {
-                                _isPaused = false;
-                              } else {
-                                _isPaused = true;
-                              }
-                            });
-                          },
-                          icon:
-                              Icon(_isPaused ? Icons.play_arrow : Icons.pause),
-                          label: Text(_isPaused ? "Resume" : "Pause")),
-                    ],
-                  )
-                ],
-              )
-            : SizedBox(),
+        Column(
+          children: <Widget>[
+            Center(
+              child: CountdownTimer(),
+            ),
+            Row(
+              children: <Widget>[
+                FloatingActionButton.extended(
+                    onPressed: () {
+                      setState(() {
+                        if (_isPaused) {
+                          _isPaused = false;
+                        } else {
+                          _isPaused = true;
+                        }
+                      });
+                    },
+                    icon: Icon(_isPaused ? Icons.play_arrow : Icons.pause),
+                    label: Text(_isPaused ? "Resume" : "Pause")),
+              ],
+            )
+          ],
+        )
       ],
     );
   }

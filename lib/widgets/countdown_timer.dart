@@ -4,21 +4,26 @@ import '../models/timer_model.dart';
 import 'package:provider/provider.dart';
 
 class CountdownTimer extends StatefulWidget {
-  final initialTime;
-  CountdownTimer({this.initialTime});
-
   @override
   _CountdownTimerState createState() => _CountdownTimerState();
 }
 
 class _CountdownTimerState extends State<CountdownTimer> {
+  Timer _timer;
+
   @override
   void initState() {
+    TimerModel _timer = Provider.of<TimerModel>(context, listen: false);
     Timer.periodic(Duration(seconds: 1), (t) {
-      TimerModel timer = Provider.of<TimerModel>(context, listen: false);
-      timer.updateRemainingTime();
+      _timer.updateRemainingTime();
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -31,7 +36,10 @@ class _CountdownTimerState extends State<CountdownTimer> {
             builder: (context, data, child) {
               return Text(
                 data.getRemainingTime()?.toString() ?? '',
-                style: TextStyle(fontSize: 72, color: Colors.black),
+                style: TextStyle(
+                    fontSize: 48,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700),
               );
             },
           )
