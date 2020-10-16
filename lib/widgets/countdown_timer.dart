@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 class CountdownTimer extends StatefulWidget {
   final initialTime;
   CountdownTimer({this.initialTime});
+
   @override
   _CountdownTimerState createState() => _CountdownTimerState();
 }
@@ -14,7 +15,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     Timer.periodic(Duration(seconds: 1), (t) {
-      var timer = Provider.of<TimerModel>(context, listen: false);
+      TimerModel timer = Provider.of<TimerModel>(context, listen: false);
       timer.updateRemainingTime();
     });
     super.initState();

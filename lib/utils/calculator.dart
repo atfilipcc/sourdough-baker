@@ -1,5 +1,5 @@
-class CalculatorBrain {
-  CalculatorBrain({this.flour, this.hydration});
+class Calculator {
+  Calculator({this.flour, this.hydration});
 
   final int flour;
   final int hydration;

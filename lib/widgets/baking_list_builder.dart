@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'recipe_item.dart';
 import '../models/recipe_item_model.dart';
-import './countdown_timer_model.dart';
+import 'countdown_timer.dart';
+import '../models/timer_model.dart';
+import 'package:provider/provider.dart';
 
 class BakingListBuilder extends StatefulWidget {
   final List<RecipeItemModel> recipeList;
@@ -24,6 +26,8 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
         Expanded(
           child: ListView.builder(
             itemBuilder: (context, index) {
+              TimerModel timer =
+                  Provider.of<TimerModel>(context, listen: false);
               final recipeItem = widget.recipeList[index];
               return RecipeItem(
                   recipeTitle: recipeItem.title,
@@ -34,7 +38,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                       recipeItem.toggleDone();
                       if (recipeItem.isDone == true) {
                         showTimer = true;
-                        timerUntilNext = recipeItem.milisecondsUntilNext;
+                        timer.setRemainingTime(recipeItem.milisecondsUntilNext);
                       } else {
                         showTimer = false;
                       }
@@ -48,7 +52,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
             ? Column(
                 children: <Widget>[
                   Center(
-                    child: CountdownTimer(),
+                    child: CountdownTimer(initialTime: timerUntilNext),
                   ),
                   Row(
                     children: <Widget>[

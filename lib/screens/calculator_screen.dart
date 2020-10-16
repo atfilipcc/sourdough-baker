@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/data_card.dart';
 import '../utils/constants.dart';
 import '../widgets/calculate_button.dart';
-import '../utils/calculator_brain.dart';
+import '../utils/calculator.dart';
 
 class CalculatorScreen extends StatefulWidget {
   static final id = 'calculator_screen';
@@ -159,7 +159,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           ),
           CalculateButton(
               onTap: () {
-                CalculatorBrain calculateIngredients = CalculatorBrain(
+                Calculator calculateIngredients = Calculator(
                     flour: selectedFlourAmount, hydration: selectedHydration);
                 setState(() {
                   recipeDescription = calculateIngredients.getResult();
