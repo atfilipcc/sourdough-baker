@@ -54,20 +54,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
               child: CountdownTimer(),
             ),
             Row(
-              children: <Widget>[
-                FloatingActionButton.extended(
-                    onPressed: () {
-                      setState(() {
-                        if (_isPaused) {
-                          _isPaused = false;
-                        } else {
-                          _isPaused = true;
-                        }
-                      });
-                    },
-                    icon: Icon(_isPaused ? Icons.play_arrow : Icons.pause),
-                    label: Text(_isPaused ? "Resume" : "Pause")),
-              ],
+              children: <Widget>[],
             )
           ],
         )

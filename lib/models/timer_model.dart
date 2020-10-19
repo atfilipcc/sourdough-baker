@@ -25,6 +25,7 @@ class TimerModel extends ChangeNotifier {
   void updateRemainingTime() {
     if (_remainingTimeInMs == 0) {
       return;
+      // Add notification
     } else if (_remainingTimeInMs != null) {
       _remainingTimeInMs = _remainingTimeInMs - 1000;
       convertMsToTime(_remainingTimeInMs);

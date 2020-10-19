@@ -9,22 +9,47 @@ class CountdownTimer extends StatefulWidget {
 }
 
 class _CountdownTimerState extends State<CountdownTimer> {
-  Timer _timer;
+  Timer _timerInstance;
+
+  bool _isPaused = false;
+  int _timerInterval = 1;
 
   @override
   void initState() {
-    TimerModel _timer = Provider.of<TimerModel>(context, listen: false);
-    Timer.periodic(Duration(seconds: 1), (t) {
-      _timer.updateRemainingTime();
-    });
+    startTimer();
     super.initState();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timerInstance.cancel();
     super.dispose();
   }
+
+  void startTimer() {
+    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
+    _timerInterval = 1;
+    if (_timerInstance != null) {
+      _timerInstance.cancel();
+    }
+    _timerInstance = new Timer.periodic(
+      Duration(seconds: _timerInterval),
+      (t) => setState(
+        () {
+          _timerModel.updateRemainingTime();
+        },
+      ),
+    );
+  }
+
+  void pauseTimer() {
+    if (_timerInstance != null) {
+      _timerInstance.cancel();
+      _timerInterval = 0;
+    }
+  }
+
+  void unpauseTimer() => startTimer();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +67,21 @@ class _CountdownTimerState extends State<CountdownTimer> {
                     fontWeight: FontWeight.w700),
               );
             },
-          )
+          ),
+          FloatingActionButton.extended(
+              onPressed: () {
+                setState(() {
+                  if (_isPaused) {
+                    _isPaused = false;
+                    unpauseTimer();
+                  } else {
+                    _isPaused = true;
+                    pauseTimer();
+                  }
+                });
+              },
+              icon: Icon(_isPaused ? Icons.play_arrow : Icons.pause),
+              label: Text(_isPaused ? "Resume" : "Pause")),
         ],
       ),
     );
