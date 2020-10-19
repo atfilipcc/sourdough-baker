@@ -16,7 +16,6 @@ class BakingListBuilder extends StatefulWidget {
 
 class _BakingListBuilderState extends State<BakingListBuilder> {
   bool showTimer = false;
-  bool _isPaused = false;
   int timerUntilNext = 0;
 
   @override
@@ -37,7 +36,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                     setState(() {
                       recipeItem.toggleDone();
                       if (recipeItem.isDone == true) {
-                        timer.setRemainingTime(recipeItem.milisecondsUntilNext);
+                        timer.setRemainingTime(recipeItem.durationUntilNext);
                         showTimer = true;
                       } else {
                         showTimer = false;
@@ -50,7 +49,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
         ),
         Column(
           children: <Widget>[
-            Center(
+            Container(
               child: CountdownTimer(),
             ),
             Row(

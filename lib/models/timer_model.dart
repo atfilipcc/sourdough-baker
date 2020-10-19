@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 class TimerModel extends ChangeNotifier {
-  int _remainingTimeInMs;
-
   Duration _remainingTime;
 
   String getRemainingTime() {
@@ -17,25 +15,18 @@ class TimerModel extends ChangeNotifier {
         .join(':');
   }
 
-  void convertMsToTime(ms) {
-    Duration duration = new Duration(milliseconds: ms.round());
-    _remainingTime = duration;
-  }
-
   void updateRemainingTime() {
-    if (_remainingTimeInMs == 0) {
+    if (_remainingTime.isNegative) {
       return;
       // Add notification
-    } else if (_remainingTimeInMs != null) {
-      _remainingTimeInMs = _remainingTimeInMs - 1000;
-      convertMsToTime(_remainingTimeInMs);
+    } else if (_remainingTime != null) {
+      _remainingTime = Duration(seconds: _remainingTime.inSeconds - 1);
     }
     notifyListeners();
   }
 
-  void setRemainingTime(int newValue) {
-    _remainingTimeInMs = newValue;
-    convertMsToTime(_remainingTimeInMs);
+  void setRemainingTime(Duration newValue) {
+    _remainingTime = newValue;
     notifyListeners();
   }
 }

@@ -42,7 +42,6 @@ class BakingScreenBuilder extends StatelessWidget {
           Expanded(
             child: Container(
               child: BakingListBuilder(recipeItems),
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

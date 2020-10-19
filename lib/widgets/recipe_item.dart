@@ -24,7 +24,7 @@ class RecipeItem extends StatelessWidget {
           value: isChecked,
           onChanged: checkboxCallback,
         ),
-        title: Text(recipeTitle),
+        title: Text(recipeTitle, style: TextStyle(fontWeight: FontWeight.w500)),
         subtitle: isChecked
             ? Text('')
             : Text(

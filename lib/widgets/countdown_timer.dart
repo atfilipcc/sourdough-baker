@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/timer_model.dart';
 import 'package:provider/provider.dart';
+import '../utils/constants.dart';
 
 class CountdownTimer extends StatefulWidget {
   @override
@@ -10,7 +11,6 @@ class CountdownTimer extends StatefulWidget {
 
 class _CountdownTimerState extends State<CountdownTimer> {
   Timer _timerInstance;
-
   bool _isPaused = false;
   int _timerInterval = 1;
 
@@ -49,39 +49,81 @@ class _CountdownTimerState extends State<CountdownTimer> {
     }
   }
 
-  void unpauseTimer() => startTimer();
-
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      decoration: BoxDecoration(
+        color: kMainBrand,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20.0),
+          topLeft: Radius.circular(20.0),
+        ),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 32),
+          SizedBox(height: 24.0),
           Consumer<TimerModel>(
             builder: (context, data, child) {
-              return Text(
-                data.getRemainingTime()?.toString() ?? '',
-                style: TextStyle(
-                    fontSize: 48,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
+              return Center(
+                child: Text(
+                  data.getRemainingTime()?.toString() ?? '',
+                  style: kTimerTextStyle,
+                ),
               );
             },
           ),
-          FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  if (_isPaused) {
-                    _isPaused = false;
-                    unpauseTimer();
-                  } else {
-                    _isPaused = true;
-                    pauseTimer();
-                  }
-                });
-              },
-              icon: Icon(_isPaused ? Icons.play_arrow : Icons.pause),
-              label: Text(_isPaused ? "Resume" : "Pause")),
+          SizedBox(height: 8.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton(
+                child: Icon(
+                  _isPaused ? Icons.play_arrow : Icons.pause,
+                  size: 38.0,
+                ),
+                heroTag: 'Pause/Resume',
+                tooltip: _isPaused ? 'Resume' : 'Pause',
+                backgroundColor: kDarkShade,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(16.0),
+                    topLeft: Radius.circular(16.0),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    if (_isPaused) {
+                      _isPaused = false;
+                      startTimer();
+                    } else {
+                      _isPaused = true;
+                      pauseTimer();
+                    }
+                  });
+                },
+              ),
+              SizedBox(width: 16.0),
+              FloatingActionButton(
+                child: Icon(
+                  Icons.settings,
+                  size: 28.0,
+                ),
+                tooltip: 'Set new timer',
+                heroTag: 'setTimer',
+                backgroundColor: kDarkShade,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(16.0),
+                    topLeft: Radius.circular(16.0),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {});
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );
