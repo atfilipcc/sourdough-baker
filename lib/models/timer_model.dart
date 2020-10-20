@@ -16,10 +16,7 @@ class TimerModel extends ChangeNotifier {
   }
 
   void updateRemainingTime() {
-    if (_remainingTime.isNegative) {
-      return;
-      // Add notification
-    } else if (_remainingTime != null) {
+    if (_remainingTime != null) {
       _remainingTime = Duration(seconds: _remainingTime.inSeconds - 1);
     }
     notifyListeners();

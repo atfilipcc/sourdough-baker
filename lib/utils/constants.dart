@@ -9,3 +9,8 @@ Color kDarkShade = Color(0xff48546B);
 
 var kTimerTextStyle =
     TextStyle(fontSize: 58, color: Colors.white, fontWeight: FontWeight.w700);
+
+var kBorderRadiusRoundedTop = BorderRadius.only(
+  topLeft: Radius.circular(20.0),
+  topRight: Radius.circular(20.0),
+);

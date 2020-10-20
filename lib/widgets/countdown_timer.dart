@@ -3,6 +3,7 @@ import 'dart:async';
 import '../models/timer_model.dart';
 import 'package:provider/provider.dart';
 import '../utils/constants.dart';
+import 'package:flutter/cupertino.dart';
 
 class CountdownTimer extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class CountdownTimer extends StatefulWidget {
 class _CountdownTimerState extends State<CountdownTimer> {
   Timer _timerInstance;
   bool _isPaused = false;
+  bool showTimer = false;
   int _timerInterval = 1;
 
   @override
@@ -47,6 +49,14 @@ class _CountdownTimerState extends State<CountdownTimer> {
       _timerInstance.cancel();
       _timerInterval = 0;
     }
+  }
+
+  CupertinoTimerPicker getTimerPicker() {
+    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
+    return CupertinoTimerPicker(
+      onTimerDurationChanged: (duration) =>
+          _timerModel.setRemainingTime(duration),
+    );
   }
 
   @override
@@ -86,10 +96,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 tooltip: _isPaused ? 'Resume' : 'Pause',
                 backgroundColor: kDarkShade,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(16.0),
-                    topLeft: Radius.circular(16.0),
-                  ),
+                  borderRadius: kBorderRadiusRoundedTop,
                 ),
                 onPressed: () {
                   setState(() {
@@ -113,17 +120,31 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 heroTag: 'setTimer',
                 backgroundColor: kDarkShade,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(16.0),
-                    topLeft: Radius.circular(16.0),
-                  ),
-                ),
+                    borderRadius: kBorderRadiusRoundedTop),
                 onPressed: () {
-                  setState(() {});
+                  setState(() {
+                    if (showTimer == false) {
+                      showTimer = true;
+                      _isPaused = true;
+                    } else {
+                      showTimer = false;
+                    }
+                  });
                 },
               ),
             ],
           ),
+          showTimer
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: kBorderRadiusRoundedTop,
+                  ),
+                  child: Center(
+                    child: getTimerPicker(),
+                  ),
+                )
+              : SizedBox(height: 0)
         ],
       ),
     );

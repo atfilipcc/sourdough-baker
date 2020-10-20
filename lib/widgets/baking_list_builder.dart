@@ -52,9 +52,6 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
             Container(
               child: CountdownTimer(),
             ),
-            Row(
-              children: <Widget>[],
-            )
           ],
         )
       ],
