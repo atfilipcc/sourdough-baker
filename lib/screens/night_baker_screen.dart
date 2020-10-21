@@ -96,7 +96,7 @@ class _NightBakerScreenState extends State<NightBakerScreen> {
             'Remove proofed loaves onto parchment paper or directly into the preheated dutch oven, score loaves then bake for 20 minutes with the lid on. Turn the oven down to 450, remove the lid on the dutch oven and continue bake for 20-30 minutes with lid off. Let the loaves cool completely before cutting.',
         isDone: false,
         durationUntilNext: Duration(
-          hours: 1,
+          hours: 0,
           minutes: 0,
           seconds: 0,
         )),

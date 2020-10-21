@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import '../models/timer_model.dart';
 import 'package:provider/provider.dart';
 import '../utils/constants.dart';
@@ -11,56 +10,27 @@ class CountdownTimer extends StatefulWidget {
 }
 
 class _CountdownTimerState extends State<CountdownTimer> {
-  Timer _timerInstance;
   bool _isPaused = false;
-  bool showTimer = false;
-  int _timerInterval = 1;
+  bool showTimerPicker = false;
 
   @override
   void initState() {
-    startTimer();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _timerInstance.cancel();
-    super.dispose();
-  }
-
-  void startTimer() {
     TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
-    _timerInterval = 1;
-    if (_timerInstance != null) {
-      _timerInstance.cancel();
-    }
-    _timerInstance = new Timer.periodic(
-      Duration(seconds: _timerInterval),
-      (t) => setState(
-        () {
-          _timerModel.updateRemainingTime();
-        },
-      ),
-    );
-  }
-
-  void pauseTimer() {
-    if (_timerInstance != null) {
-      _timerInstance.cancel();
-      _timerInterval = 0;
-    }
+    print(_timerModel);
+    _timerModel.startTimer();
+    super.initState();
   }
 
   CupertinoTimerPicker getTimerPicker() {
     TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
-    return CupertinoTimerPicker(
-      onTimerDurationChanged: (duration) =>
-          _timerModel.setRemainingTime(duration),
-    );
+    return CupertinoTimerPicker(onTimerDurationChanged: (duration) {
+      _timerModel.setRemainingTime(duration);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         color: kMainBrand,
@@ -100,12 +70,12 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 ),
                 onPressed: () {
                   setState(() {
-                    if (_isPaused) {
+                    if (_isPaused == true) {
+                      _timerModel.startTimer();
                       _isPaused = false;
-                      startTimer();
                     } else {
+                      _timerModel.pauseTimer();
                       _isPaused = true;
-                      pauseTimer();
                     }
                   });
                 },
@@ -123,18 +93,21 @@ class _CountdownTimerState extends State<CountdownTimer> {
                     borderRadius: kBorderRadiusRoundedTop),
                 onPressed: () {
                   setState(() {
-                    if (showTimer == false) {
-                      showTimer = true;
+                    if (showTimerPicker == false) {
+                      showTimerPicker = true;
                       _isPaused = true;
+                      _timerModel.pauseTimer();
                     } else {
-                      showTimer = false;
+                      showTimerPicker = false;
+                      _isPaused = false;
+                      _timerModel.startTimer();
                     }
                   });
                 },
               ),
             ],
           ),
-          showTimer
+          showTimerPicker
               ? Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
