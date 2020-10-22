@@ -18,7 +18,7 @@ class _OneDayBakerScreenState extends State<OneDayBakerScreen> {
       durationUntilNext: Duration(
         hours: 0,
         minutes: 0,
-        seconds: 0,
+        seconds: 10,
       ),
     ),
     RecipeItemModel(

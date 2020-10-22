@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sourdough_baker/screens/calculator_screen.dart';
-import '../widgets/button.dart';
+import '../widgets/main_button.dart';
 import '../utils/constants.dart';
 import 'nine_to_five_screen.dart';
 import 'one_day_baker_screen.dart';

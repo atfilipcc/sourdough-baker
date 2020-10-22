@@ -1,20 +1,28 @@
 import 'package:flutter/foundation.dart';
 import 'dart:async';
+import './notification_model.dart';
 
 class TimerModel extends ChangeNotifier {
   Duration _remainingTime;
   Timer _timerInstance;
   int _timerInterval;
 
+  final Duration _finished = Duration(hours: 0, minutes: 0, seconds: 0);
+
   void startTimer() {
-    print('timer is starting');
     _timerInterval = 1;
     if (_timerInstance != null) {
       _timerInstance.cancel();
     }
     _timerInstance = new Timer.periodic(
       Duration(seconds: _timerInterval),
-      (t) => this.updateRemainingTime(),
+      (t) {
+        if (_remainingTime == _finished) {
+          _timerInterval = 0;
+        } else {
+          _updateRemainingTime();
+        }
+      },
     );
   }
 
@@ -25,8 +33,9 @@ class TimerModel extends ChangeNotifier {
   }
 
   String getRemainingTime() {
-    if (_remainingTime == Duration(hours: 0, minutes: 0, seconds: 0))
+    if (_remainingTime == _finished) {
       return 'Done!';
+    }
     return [
       _remainingTime?.inHours,
       _remainingTime?.inMinutes,
@@ -38,7 +47,7 @@ class TimerModel extends ChangeNotifier {
         .join(':');
   }
 
-  void updateRemainingTime() {
+  void _updateRemainingTime() {
     if (_remainingTime != null) {
       _remainingTime = Duration(seconds: _remainingTime.inSeconds - 1);
     }
@@ -46,7 +55,11 @@ class TimerModel extends ChangeNotifier {
   }
 
   void setRemainingTime(Duration newValue) {
+    // TODO: Cancel old notifications.
     _remainingTime = newValue;
+    NotificationModel notificationModel =
+        NotificationModel(duration: _remainingTime);
+    notificationModel.scheduleNotification(_remainingTime);
     notifyListeners();
   }
 }

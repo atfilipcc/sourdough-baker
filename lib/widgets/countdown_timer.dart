@@ -16,7 +16,6 @@ class _CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
-    print(_timerModel);
     _timerModel.startTimer();
     super.initState();
   }
@@ -110,7 +109,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
           showTimerPicker
               ? Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: kMainBackground,
                     borderRadius: kBorderRadiusRoundedTop,
                   ),
                   child: Center(
