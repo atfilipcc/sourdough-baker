@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/timer_model.dart';
+import '../models/notification_model.dart';
 import 'package:provider/provider.dart';
 import '../utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,21 +16,44 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
   @override
   void initState() {
-    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
-    _timerModel.startTimer();
+    initialize();
     super.initState();
+  }
+
+  void initialize() {
+    _isPaused = false;
+    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
+    NotificationModel _notificationModel =
+        Provider.of<NotificationModel>(context, listen: false);
+    _timerModel.startTimer();
+    if (_timerModel.getDuration() != null) {
+      _notificationModel.cancelNotification();
+      _notificationModel.scheduleNotification(_timerModel.getDuration());
+    }
+  }
+
+  void destruct() {
+    _isPaused = true;
+    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
+    NotificationModel _notificationModel =
+        Provider.of<NotificationModel>(context, listen: false);
+    _timerModel.pauseTimer();
+    _notificationModel.cancelNotification();
   }
 
   CupertinoTimerPicker getTimerPicker() {
     TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
     return CupertinoTimerPicker(onTimerDurationChanged: (duration) {
       _timerModel.setRemainingTime(duration);
+      if (!_isPaused) {
+        destruct();
+        _isPaused = true;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         color: kMainBrand,
@@ -70,11 +94,9 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 onPressed: () {
                   setState(() {
                     if (_isPaused == true) {
-                      _timerModel.startTimer();
-                      _isPaused = false;
+                      initialize();
                     } else {
-                      _timerModel.pauseTimer();
-                      _isPaused = true;
+                      destruct();
                     }
                   });
                 },
@@ -94,12 +116,9 @@ class _CountdownTimerState extends State<CountdownTimer> {
                   setState(() {
                     if (showTimerPicker == false) {
                       showTimerPicker = true;
-                      _isPaused = true;
-                      _timerModel.pauseTimer();
+                      destruct();
                     } else {
                       showTimerPicker = false;
-                      _isPaused = false;
-                      _timerModel.startTimer();
                     }
                   });
                 },

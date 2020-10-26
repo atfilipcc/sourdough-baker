@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'dart:async';
-import './notification_model.dart';
 
 class TimerModel extends ChangeNotifier {
   Duration _remainingTime;
   Timer _timerInstance;
   int _timerInterval;
-
   final Duration _finished = Duration(hours: 0, minutes: 0, seconds: 0);
 
   void startTimer() {
+    setRemainingTime(_remainingTime);
     _timerInterval = 1;
     if (_timerInstance != null) {
       _timerInstance.cancel();
@@ -47,6 +46,10 @@ class TimerModel extends ChangeNotifier {
         .join(':');
   }
 
+  Duration getDuration() {
+    return _remainingTime;
+  }
+
   void _updateRemainingTime() {
     if (_remainingTime != null) {
       _remainingTime = Duration(seconds: _remainingTime.inSeconds - 1);
@@ -55,11 +58,6 @@ class TimerModel extends ChangeNotifier {
   }
 
   void setRemainingTime(Duration newValue) {
-    // TODO: Cancel old notifications.
     _remainingTime = newValue;
-    NotificationModel notificationModel =
-        NotificationModel(duration: _remainingTime);
-    notificationModel.scheduleNotification(_remainingTime);
-    notifyListeners();
   }
 }

@@ -1,13 +1,15 @@
 import '../main.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-class NotificationModel {
+class NotificationModel extends ChangeNotifier {
   Duration duration;
   NotificationModel({this.duration});
 
   void scheduleNotification(Duration duration) async {
+    print('notification scheduled');
     tz.initializeTimeZones();
     var scheduledDate = tz.TZDateTime.now(tz.local).add(duration);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -32,5 +34,10 @@ class NotificationModel {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
+  }
+
+  void cancelNotification() async {
+    print('notification canceled');
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 }

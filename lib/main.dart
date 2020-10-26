@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import './screens/night_baker_screen.dart';
 import './screens/calculator_screen.dart';
 import './models/timer_model.dart';
+import './models/notification_model.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -35,8 +36,12 @@ void main() async {
 class SourdoughBaker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => TimerModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<TimerModel>(create: (_) => TimerModel()),
+        ChangeNotifierProvider<NotificationModel>(
+            create: (_) => NotificationModel()),
+      ],
       child: MaterialApp(
         title: 'Sourdough Baker',
         theme: ThemeData(
