@@ -4,21 +4,45 @@ import '../models/notification_model.dart';
 import 'package:provider/provider.dart';
 import '../utils/constants.dart';
 import 'package:flutter/cupertino.dart';
+import 'timer_picker.dart';
 
 class CountdownTimer extends StatefulWidget {
   @override
   _CountdownTimerState createState() => _CountdownTimerState();
 }
 
-class _CountdownTimerState extends State<CountdownTimer> {
+class _CountdownTimerState extends State<CountdownTimer>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+  Animation<Offset> _offsetAnimation;
+
   bool _isPaused = false;
   bool showTimerPicker = false;
   bool showPauseButton = true;
 
   @override
   void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 600,
+      ),
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0.0, 1.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.linear,
+    ));
     initialize();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   void initialize() {
@@ -42,21 +66,15 @@ class _CountdownTimerState extends State<CountdownTimer> {
     _notificationModel.cancelNotification();
   }
 
-  CupertinoTheme getTimerPicker() {
+  Function timerPickerCallback() {
     TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
-    return CupertinoTheme(
-      data: CupertinoThemeData(
-        textTheme: CupertinoTextThemeData(
-            pickerTextStyle: TextStyle(color: Colors.white)),
-      ),
-      child: CupertinoTimerPicker(onTimerDurationChanged: (duration) {
-        _timerModel.setRemainingTime(duration);
-        if (!_isPaused) {
-          destruct();
-          _isPaused = true;
-        }
-      }),
-    );
+    return (duration) {
+      _timerModel.setRemainingTime(duration);
+      if (!_isPaused) {
+        destruct();
+        _isPaused = true;
+      }
+    };
   }
 
   @override
@@ -76,26 +94,28 @@ class _CountdownTimerState extends State<CountdownTimer> {
           Consumer<TimerModel>(
             builder: (context, data, child) {
               String countdown = data.getRemainingTime()?.toString() ?? '';
-              return Center(
-                child: Column(
-                  children: [
-                    Text(
-                      countdown,
-                      style: kTimerTextStyle,
-                    ),
-                    countdown != 'Done!'
-                        ? Text(
-                            'UNTIL NEXT STEP',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          )
-                        : SizedBox(),
-                  ],
-                ),
-              );
+              return countdown != '::'
+                  ? Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            countdown,
+                            style: kTimerTextStyle,
+                          ),
+                          countdown != 'Done!'
+                              ? Text(
+                                  'UNTIL NEXT STEP',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                    )
+                  : SizedBox();
             },
           ),
           SizedBox(height: 8.0),
@@ -138,9 +158,11 @@ class _CountdownTimerState extends State<CountdownTimer> {
                   setState(() {
                     if (showTimerPicker == false) {
                       showTimerPicker = true;
+                      _animationController.forward();
                       destruct();
                     } else {
                       showTimerPicker = false;
+                      _animationController.reverse();
                     }
                   });
                 },
@@ -150,11 +172,11 @@ class _CountdownTimerState extends State<CountdownTimer> {
           showTimerPicker
               ? Container(
                   decoration: BoxDecoration(
-                    color: kMainBackground,
+                    color: kDarkShade,
                     borderRadius: kBorderRadiusRoundedTop,
                   ),
-                  child: Center(
-                    child: getTimerPicker(),
+                  child: TimerPicker(
+                    callback: timerPickerCallback,
                   ),
                 )
               : SizedBox(height: 0)
