@@ -20,16 +20,23 @@ class RecipeItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: ListTile(
         leading: Checkbox(
-          activeColor: kMainBrand,
+          activeColor: kOrangeAccent,
           value: isChecked,
           onChanged: checkboxCallback,
         ),
-        title: Text(recipeTitle, style: TextStyle(fontWeight: FontWeight.w500)),
+        title: Text(
+          recipeTitle,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
         subtitle: isChecked
             ? Text('')
             : Text(
                 recipeText,
                 style: TextStyle(
+                  color: Colors.white,
                   decoration: isChecked ? TextDecoration.lineThrough : null,
                 ),
               ),

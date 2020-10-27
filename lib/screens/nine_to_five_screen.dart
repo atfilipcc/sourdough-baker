@@ -16,7 +16,7 @@ class _NineToFiveScreenState extends State<NineToFiveScreen> {
             'Remove most of the starter leaving at least 2 Tbsp, then feed your starter with flour and ice cold water to slow down the activation process. Autolyse - mix the flour and water without kneading.',
         isDone: false,
         durationUntilNext: Duration(
-          hours: 0,
+          hours: 7,
           minutes: 0,
           seconds: 0,
         )),
@@ -27,7 +27,7 @@ class _NineToFiveScreenState extends State<NineToFiveScreen> {
         isDone: false,
         durationUntilNext: Duration(
           hours: 0,
-          minutes: 0,
+          minutes: 30,
           seconds: 0,
         )),
     RecipeItemModel(
@@ -36,7 +36,7 @@ class _NineToFiveScreenState extends State<NineToFiveScreen> {
             'Perform a stretch and fold round every 30 minutes for the next 2-2.5 hours until you feel the dough has developed a nice gluten structure.',
         isDone: false,
         durationUntilNext: Duration(
-          hours: 0,
+          hours: 2,
           minutes: 0,
           seconds: 0,
         )),
@@ -46,8 +46,8 @@ class _NineToFiveScreenState extends State<NineToFiveScreen> {
             'Let the dough sit for the next few hours until it has risen by 30-50% this process depends on the variables* listed above so use your intuition!',
         isDone: false,
         durationUntilNext: Duration(
-          hours: 0,
-          minutes: 0,
+          hours: 2,
+          minutes: 30,
           seconds: 0,
         )),
     RecipeItemModel(
@@ -57,22 +57,26 @@ class _NineToFiveScreenState extends State<NineToFiveScreen> {
         isDone: false,
         durationUntilNext: Duration(
           hours: 0,
-          minutes: 0,
+          minutes: 30,
           seconds: 0,
         )),
     RecipeItemModel(
-      title: 'Final Shape and Proof - 10:30 pm',
-      text:
-          ' Give your loaves a final shaping and place them in the baskets. Place your proofing baskets in a plastic bag (or plastic wrap) and let put them the fridge to proof overnight.',
-      isDone: false,
-    ),
+        title: 'Final Shape and Proof - 10:30 pm',
+        text:
+            ' Give your loaves a final shaping and place them in the baskets. Place your proofing baskets in a plastic bag (or plastic wrap) and let put them the fridge to proof overnight.',
+        isDone: false,
+        durationUntilNext: Duration(
+          hours: 9,
+          minutes: 30,
+          seconds: 0,
+        )),
     RecipeItemModel(
         title: 'Preheat Oven - 7:00 am',
         text:
             'Place your dutch oven pan in the oven at 500 Degrees Fahrenheit and preheat for at least 45 minutes.',
         isDone: false,
         durationUntilNext: Duration(
-          hours: 0,
+          hours: 1,
           minutes: 0,
           seconds: 0,
         )),

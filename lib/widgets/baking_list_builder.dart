@@ -35,7 +35,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                   checkboxCallback: (checkboxState) {
                     setState(() {
                       recipeItem.toggleDone();
-                      if (recipeItem.isDone == true) {
+                      if (recipeItem.isDone) {
                         timer.setRemainingTime(recipeItem.durationUntilNext);
                         showTimer = true;
                       } else {

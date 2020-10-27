@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './screens/nine_to_five_screen.dart';
-import './screens/one_day_baker_screen.dart';
+import 'screens/speedbake_screen.dart';
 import './screens/choose_schedule.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import './screens/night_baker_screen.dart';
@@ -51,7 +51,7 @@ class SourdoughBaker extends StatelessWidget {
         routes: {
           ChooseSchedule.id: (context) => ChooseSchedule(),
           CalculatorScreen.id: (context) => CalculatorScreen(),
-          OneDayBakerScreen.id: (context) => OneDayBakerScreen(),
+          SpeedbakeScreen.id: (context) => SpeedbakeScreen(),
           NineToFiveScreen.id: (context) => NineToFiveScreen(),
           NightBakerScreen.id: (context) => NightBakerScreen(),
         },

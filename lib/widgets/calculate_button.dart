@@ -20,7 +20,7 @@ class CalculateButton extends StatelessWidget {
                 fontSize: 35.0,
               )),
         ),
-        color: kMainBrand,
+        color: kOrangeAccent,
         margin: EdgeInsets.only(top: 10.0),
         width: double.infinity,
         height: 80.0,

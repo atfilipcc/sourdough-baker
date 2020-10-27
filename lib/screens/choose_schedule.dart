@@ -3,7 +3,7 @@ import 'package:sourdough_baker/screens/calculator_screen.dart';
 import '../widgets/main_button.dart';
 import '../utils/constants.dart';
 import 'nine_to_five_screen.dart';
-import 'one_day_baker_screen.dart';
+import 'speedbake_screen.dart';
 import './night_baker_screen.dart';
 
 class ChooseSchedule extends StatelessWidget {
@@ -12,45 +12,56 @@ class ChooseSchedule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kMainBackground,
-      appBar: AppBar(
-        title: Text('Choose your schedule'),
-        backgroundColor: kDarkShade,
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            MainButton(
-              title: 'The One Day Bake',
-              inputColour: kMainBrand,
-              onPressed: () {
-                Navigator.pushNamed(context, OneDayBakerScreen.id);
-              },
-            ),
-            MainButton(
-              title: 'The 9-5 Bake',
-              inputColour: kMainBrand,
-              onPressed: () {
-                Navigator.pushNamed(context, NineToFiveScreen.id);
-              },
-            ),
-            MainButton(
-              title: 'The Night Baker',
-              inputColour: kMainBrand,
-              onPressed: () {
-                Navigator.pushNamed(context, NightBakerScreen.id);
-              },
-            ),
-            MainButton(
-              title: 'Calculator',
-              inputColour: kMainBrand,
-              onPressed: () {
-                Navigator.pushNamed(context, CalculatorScreen.id);
-              },
-            ),
-          ],
-        ),
-      ),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: [
+              Text(
+                'Schedules',
+                style: kHeadline,
+              ),
+              MainButton(
+                title: 'The Speedbake',
+                inputColour: kOrangeAccent,
+                onPressed: () {
+                  Navigator.pushNamed(context, SpeedbakeScreen.id);
+                },
+              ),
+              MainButton(
+                title: 'The 9-5 Bake',
+                inputColour: kOrangeAccent,
+                onPressed: () {
+                  Navigator.pushNamed(context, NineToFiveScreen.id);
+                },
+              ),
+              MainButton(
+                title: 'The Night Baker',
+                inputColour: kOrangeAccent,
+                onPressed: () {
+                  Navigator.pushNamed(context, NightBakerScreen.id);
+                },
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Text(
+                'Tools',
+                style: kHeadline,
+              ),
+              MainButton(
+                title: 'Calculator',
+                inputColour: kOrangeAccent,
+                onPressed: () {
+                  Navigator.pushNamed(context, CalculatorScreen.id);
+                },
+              ),
+            ],
+          ),
+        ],
+      )),
     );
   }
 }

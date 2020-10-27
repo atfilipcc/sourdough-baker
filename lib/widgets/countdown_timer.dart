@@ -13,6 +13,7 @@ class CountdownTimer extends StatefulWidget {
 class _CountdownTimerState extends State<CountdownTimer> {
   bool _isPaused = false;
   bool showTimerPicker = false;
+  bool showPauseButton = true;
 
   @override
   void initState() {
@@ -41,22 +42,28 @@ class _CountdownTimerState extends State<CountdownTimer> {
     _notificationModel.cancelNotification();
   }
 
-  CupertinoTimerPicker getTimerPicker() {
+  CupertinoTheme getTimerPicker() {
     TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
-    return CupertinoTimerPicker(onTimerDurationChanged: (duration) {
-      _timerModel.setRemainingTime(duration);
-      if (!_isPaused) {
-        destruct();
-        _isPaused = true;
-      }
-    });
+    return CupertinoTheme(
+      data: CupertinoThemeData(
+        textTheme: CupertinoTextThemeData(
+            pickerTextStyle: TextStyle(color: Colors.white)),
+      ),
+      child: CupertinoTimerPicker(onTimerDurationChanged: (duration) {
+        _timerModel.setRemainingTime(duration);
+        if (!_isPaused) {
+          destruct();
+          _isPaused = true;
+        }
+      }),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: kMainBrand,
+        color: kMainBackground,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20.0),
           topLeft: Radius.circular(20.0),
@@ -68,10 +75,25 @@ class _CountdownTimerState extends State<CountdownTimer> {
           SizedBox(height: 24.0),
           Consumer<TimerModel>(
             builder: (context, data, child) {
+              String countdown = data.getRemainingTime()?.toString() ?? '';
               return Center(
-                child: Text(
-                  data.getRemainingTime()?.toString() ?? '',
-                  style: kTimerTextStyle,
+                child: Column(
+                  children: [
+                    Text(
+                      countdown,
+                      style: kTimerTextStyle,
+                    ),
+                    countdown != 'Done!'
+                        ? Text(
+                            'UNTIL NEXT STEP',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
                 ),
               );
             },
