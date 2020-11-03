@@ -34,6 +34,11 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                   isChecked: recipeItem.isDone,
                   checkboxCallback: (checkboxState) {
                     setState(() {
+                      for (var i = 0; i < index; i++) {
+                        if (!widget.recipeList[i].isDone) {
+                          widget.recipeList[i].toggleDone();
+                        }
+                      }
                       recipeItem.toggleDone();
                       if (recipeItem.isDone) {
                         timer.setRemainingTime(recipeItem.durationUntilNext);
