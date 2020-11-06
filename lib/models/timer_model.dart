@@ -46,9 +46,7 @@ class TimerModel extends ChangeNotifier {
         .join(':');
   }
 
-  Duration getDuration() {
-    return _remainingTime;
-  }
+  Duration getDuration() => _remainingTime;
 
   void _updateRemainingTime() {
     if (_remainingTime != null) {
