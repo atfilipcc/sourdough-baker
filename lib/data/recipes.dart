@@ -1,11 +1,9 @@
 import '../models/recipe_item_model.dart';
 
 class Recipes {
-  List<RecipeItemModel> getRecipe(recipeName) {
-    return recipes[recipeName];
-  }
+  List<RecipeItemModel> getRecipe(recipeName) => _recipes[recipeName];
 
-  Map recipes = {
+  Map _recipes = {
     'The Night Bake': [
       RecipeItemModel(
         title: 'Feed Starter - 3:00 pm',
