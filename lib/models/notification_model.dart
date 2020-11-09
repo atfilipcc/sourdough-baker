@@ -3,15 +3,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class NotificationModel extends ChangeNotifier {
-  Duration duration;
-  NotificationModel({this.duration});
+  // Duration duration;
+  // NotificationModel({this.duration});
 
   void scheduleNotification(Duration duration) async {
-    print('notification scheduled');
     tz.initializeTimeZones();
-    var scheduledDate = tz.TZDateTime.now(tz.local).add(duration);
+    final String currentTimeZone =
+        await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    var now = tz.TZDateTime.now(tz.local);
+    var scheduledDate = now.add(duration);
+    print(scheduledDate);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'alarm_notif',
       'alarm_notif',
@@ -37,7 +42,6 @@ class NotificationModel extends ChangeNotifier {
   }
 
   void cancelNotification() async {
-    print('notification canceled');
     await flutterLocalNotificationsPlugin.cancelAll();
   }
 }

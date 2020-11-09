@@ -3,7 +3,7 @@ import '../models/recipe_item_model.dart';
 class Recipes {
   List<RecipeItemModel> getRecipe(recipeName) => _recipes[recipeName];
 
-  Map _recipes = {
+  Map<String, List<RecipeItemModel>> _recipes = {
     'The Night Bake': [
       RecipeItemModel(
         title: 'Feed Starter - 3:00 pm',
@@ -11,9 +11,9 @@ class Recipes {
             'Discard most of your starter until you are left with around 20 grams, then refeed your starter with flour and cold water',
         isDone: false,
         durationUntilNext: Duration(
-          hours: 4,
+          hours: 0,
           minutes: 0,
-          seconds: 0,
+          seconds: 10,
         ),
       ),
       RecipeItemModel(
@@ -24,7 +24,7 @@ class Recipes {
           durationUntilNext: Duration(
             hours: 1,
             minutes: 0,
-            seconds: 0,
+            seconds: 15,
           )),
       RecipeItemModel(
           title: 'Salt & Starter - 8:00 pm',
