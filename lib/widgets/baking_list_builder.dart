@@ -4,6 +4,7 @@ import '../models/recipe_model.dart';
 import '../models/recipe_item_model.dart';
 import 'countdown_timer.dart';
 import '../models/timer_model.dart';
+import '../models/notification_model.dart';
 import 'package:provider/provider.dart';
 
 class BakingListBuilder extends StatefulWidget {
@@ -22,6 +23,8 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
   @override
   Widget build(BuildContext context) {
     RecipeModel recipe = Provider.of<RecipeModel>(context, listen: false);
+    NotificationModel notification =
+        Provider.of<NotificationModel>(context, listen: false);
     return Column(
       children: [
         Expanded(
@@ -45,6 +48,8 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                       recipeItem[i].toggleDone();
                       if (recipeItem[i].isDone) {
                         timer.setRemainingTime(recipeItem[i].durationUntilNext);
+                        notification.scheduleNotification(
+                            recipeItem[i].durationUntilNext);
                         showTimer = true;
                       } else {
                         showTimer = false;

@@ -6,8 +6,9 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class NotificationModel extends ChangeNotifier {
-  // Duration duration;
-  // NotificationModel({this.duration});
+  tz.TZDateTime _scheduledDate;
+
+  tz.TZDateTime getNotificationTime() => _scheduledDate;
 
   void scheduleNotification(Duration duration) async {
     tz.initializeTimeZones();
@@ -15,8 +16,7 @@ class NotificationModel extends ChangeNotifier {
         await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
     var now = tz.TZDateTime.now(tz.local);
-    var scheduledDate = now.add(duration);
-    print(scheduledDate);
+    _scheduledDate = now.add(duration);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'alarm_notif',
       'alarm_notif',
@@ -35,7 +35,7 @@ class NotificationModel extends ChangeNotifier {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.zonedSchedule(0, 'Sourdough Baker',
-        'Time for the next step!', scheduledDate, platformChannelSpecifics,
+        'Time for the next step!', _scheduledDate, platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
