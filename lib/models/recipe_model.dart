@@ -9,18 +9,16 @@ class RecipeModel extends ChangeNotifier {
 
   save(RecipeItemModel item) async {
     final prefs = await SharedPreferences.getInstance();
-    print('Save - ${item.title}: ${item.isDone}');
-    prefs.setBool(item.title, item.isDone);
+    await prefs.setBool(item.title, item.isDone);
+    notifyListeners();
   }
 
   load(String recipeName) async {
     final prefs = await SharedPreferences.getInstance();
     for (var i = 0; i < recipes[recipeName].length; i++) {
       RecipeItemModel item = recipes[recipeName][i];
-      item.isDone = prefs.getBool(item.title);
+      item.isDone = prefs.getBool(item.title) ?? false;
       notifyListeners();
-      print(
-          'loading ${item.title} with value of ${item.isDone}. value of prefs was ${prefs.getBool(item.title)}');
     }
   }
 

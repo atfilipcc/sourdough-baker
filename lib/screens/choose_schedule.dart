@@ -6,14 +6,25 @@ import 'nine_to_five_screen.dart';
 import 'speedbake_screen.dart';
 import './night_baker_screen.dart';
 import '../models/recipe_model.dart';
+import 'package:provider/provider.dart';
 
 class ChooseSchedule extends StatelessWidget {
   static const String id = '/';
-  final RecipeModel recipes = RecipeModel();
+
+  void loadState(String recipeName, BuildContext context) async {
+    try {
+      await Provider.of<RecipeModel>(context, listen: false).load(recipeName);
+      print('loaded $recipeName');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    recipes.load('The Speedbake');
-    print(recipes.getRecipe('The Speedbake'));
+    loadState('The Speedbake', context);
+    loadState('The 9-5 Bake', context);
+    loadState('The Night Bake', context);
     return Scaffold(
       backgroundColor: kMainBackground,
       body: Center(
@@ -41,7 +52,7 @@ class ChooseSchedule extends StatelessWidget {
                 },
               ),
               MainButton(
-                title: 'The Night Baker',
+                title: 'The Night Bake',
                 inputColour: kOrangeAccent,
                 onPressed: () {
                   Navigator.pushNamed(context, NightBakerScreen.id);

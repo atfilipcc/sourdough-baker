@@ -38,7 +38,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
               return RecipeItem(
                   recipeTitle: recipeItem[i].title,
                   recipeText: recipeItem[i].text,
-                  isChecked: recipeItem[i].isDone,
+                  isChecked: recipeItem[i].isDone ?? false,
                   checkboxCallback: (checkboxState) {
                     setState(() {
                       for (var j = 0; j < i; j++) {

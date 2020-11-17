@@ -23,7 +23,7 @@ class RecipeItem extends StatelessWidget {
       child: ListTile(
         leading: Checkbox(
           activeColor: kOrangeAccent,
-          value: isChecked ?? false,
+          value: isChecked,
           onChanged: checkboxCallback,
         ),
         title: Text(

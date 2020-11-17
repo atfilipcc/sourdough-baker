@@ -6,17 +6,11 @@ class RecipeItemModel {
   final String title;
   final String text;
   final String key;
-  bool isDone = false;
+  bool isDone;
   Duration durationUntilNext;
 
   RecipeItemModel(
-      {this.text,
-      this.title,
-      this.isDone = false,
-      this.durationUntilNext,
-      this.key}) {
-    // isDone = recipes.loadAlt(this.title);
-  }
+      {this.text, this.title, this.isDone, this.durationUntilNext, this.key});
 
   void toggleDone() {
     isDone = !isDone;
