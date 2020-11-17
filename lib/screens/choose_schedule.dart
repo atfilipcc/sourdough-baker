@@ -13,7 +13,7 @@ class ChooseSchedule extends StatelessWidget {
 
   void loadState(String recipeName, BuildContext context) async {
     try {
-      await Provider.of<RecipeModel>(context, listen: false).load(recipeName);
+      Provider.of<RecipeModel>(context, listen: false).load(recipeName);
       print('loaded $recipeName');
     } catch (e) {
       print(e);
