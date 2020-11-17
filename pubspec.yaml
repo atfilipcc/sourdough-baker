@@ -32,6 +32,7 @@ dependencies:
   provider: ^3.0.0
   flutter_local_notifications: ^3.0.0
   flutter_native_timezone: ^1.0.4
+  shared_preferences: ^0.5.12+4
 
 
 

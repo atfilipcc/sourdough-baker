@@ -34,6 +34,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                   Provider.of<TimerModel>(context, listen: false);
               List<RecipeItemModel> recipeItem =
                   recipe.getRecipe(widget.recipeNameToGet);
+              print(recipeItem[i].isDone);
               return RecipeItem(
                   recipeTitle: recipeItem[i].title,
                   recipeText: recipeItem[i].text,

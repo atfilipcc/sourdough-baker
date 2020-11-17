@@ -5,11 +5,15 @@ import '../utils/constants.dart';
 import 'nine_to_five_screen.dart';
 import 'speedbake_screen.dart';
 import './night_baker_screen.dart';
+import '../models/recipe_model.dart';
 
 class ChooseSchedule extends StatelessWidget {
   static const String id = '/';
+  final RecipeModel recipes = RecipeModel();
   @override
   Widget build(BuildContext context) {
+    recipes.load('The Speedbake');
+    print(recipes.getRecipe('The Speedbake'));
     return Scaffold(
       backgroundColor: kMainBackground,
       body: Center(

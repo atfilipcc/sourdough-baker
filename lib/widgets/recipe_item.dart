@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../utils/constants.dart';
+import '../models/recipe_model.dart';
 
 class RecipeItem extends StatelessWidget {
   final String recipeTitle;
   final String recipeText;
   final bool isChecked;
   final Function checkboxCallback;
+  final RecipeModel recipe = RecipeModel();
 
   RecipeItem(
       {this.recipeText,
@@ -21,7 +23,7 @@ class RecipeItem extends StatelessWidget {
       child: ListTile(
         leading: Checkbox(
           activeColor: kOrangeAccent,
-          value: isChecked,
+          value: isChecked ?? false,
           onChanged: checkboxCallback,
         ),
         title: Text(
