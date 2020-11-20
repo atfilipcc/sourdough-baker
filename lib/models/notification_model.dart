@@ -6,17 +6,25 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class NotificationModel extends ChangeNotifier {
-  tz.TZDateTime _scheduledDate;
-
-  tz.TZDateTime getNotificationTime() => _scheduledDate;
-
-  void scheduleNotification(Duration duration) async {
+  void initializeTime() async {
     tz.initializeTimeZones();
     final String currentTimeZone =
         await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
+  }
+
+  tz.TZDateTime durationToTimeZoneDate(duration) {
     var now = tz.TZDateTime.now(tz.local);
-    _scheduledDate = now.add(duration);
+    return now.add(duration);
+  }
+
+  void cancelNotification() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  void scheduleNotification(duration) async {
+    initializeTime();
+    tz.TZDateTime _scheduledDate = durationToTimeZoneDate(duration);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'alarm_notif',
       'alarm_notif',
@@ -39,9 +47,7 @@ class NotificationModel extends ChangeNotifier {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-  }
-
-  void cancelNotification() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+    print('not scheduled for $_scheduledDate');
+    notifyListeners();
   }
 }

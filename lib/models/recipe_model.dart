@@ -7,13 +7,13 @@ class RecipeModel extends ChangeNotifier {
 
   List<RecipeItemModel> getRecipe(recipeName) => recipes[recipeName];
 
-  void save(RecipeItemModel item) async {
+  void saveRecipeData(RecipeItemModel item) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(item.title, item.isDone);
     notifyListeners();
   }
 
-  void load(String recipeName) async {
+  void loadRecipeData(String recipeName) async {
     final prefs = await SharedPreferences.getInstance();
     for (var i = 0; i < recipes[recipeName].length; i++) {
       RecipeItemModel item = recipes[recipeName][i];

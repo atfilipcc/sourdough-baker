@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'recipe_item.dart';
 import '../models/recipe_item_model.dart';
 import 'countdown_timer.dart';
-import '../models/timer_model.dart';
+import '../models/countdown_timer_model.dart';
+import '../models/time_model.dart';
 import '../models/notification_model.dart';
 import '../models/recipe_model.dart';
 import 'package:provider/provider.dart';
@@ -30,8 +31,9 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
         Expanded(
           child: ListView.builder(
             itemBuilder: (context, i) {
-              TimerModel timer =
-                  Provider.of<TimerModel>(context, listen: false);
+              CountdownTimerModel timer =
+                  Provider.of<CountdownTimerModel>(context, listen: false);
+              TimeModel time = Provider.of<TimeModel>(context, listen: false);
               List<RecipeItemModel> recipeItem =
                   recipe.getRecipe(widget.recipeNameToGet);
               return RecipeItem(
@@ -52,6 +54,7 @@ class _BakingListBuilderState extends State<BakingListBuilder> {
                             0) {
                           timer.setRemainingTime(
                               recipeItem[i].durationUntilNext);
+                          time.saveTimeData(recipeItem[i].durationUntilNext);
                           notification.scheduleNotification(
                               recipeItem[i].durationUntilNext);
                         }

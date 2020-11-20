@@ -6,15 +6,38 @@ import 'nine_to_five_screen.dart';
 import 'speedbake_screen.dart';
 import './night_baker_screen.dart';
 import '../models/recipe_model.dart';
+import '../models/notification_model.dart';
+import '../models/countdown_timer_model.dart';
+import '../models/time_model.dart';
 import 'package:provider/provider.dart';
 
 class ChooseSchedule extends StatelessWidget {
   static const String id = '/';
 
-  void loadState(String recipeName, BuildContext context) async {
+  void loadCheckState(String recipeName, BuildContext context) async {
     try {
-      Provider.of<RecipeModel>(context, listen: false).load(recipeName);
-      print('loaded $recipeName');
+      Provider.of<RecipeModel>(context, listen: false)
+          .loadRecipeData(recipeName);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void loadTimerState(BuildContext context) async {
+    print('running load timer');
+    try {
+      TimeModel time = Provider.of<TimeModel>(context, listen: false);
+      await time.loadTimeData();
+      NotificationModel notification =
+          Provider.of<NotificationModel>(context, listen: false);
+      CountdownTimerModel timer =
+          Provider.of<CountdownTimerModel>(context, listen: false);
+
+      Duration duration = time.scheduledDurationDate;
+      if (duration.isNegative == false) {
+        notification.scheduleNotification(duration);
+        timer.setRemainingTime(duration);
+      }
     } catch (e) {
       print(e);
     }
@@ -22,9 +45,10 @@ class ChooseSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    loadState('The Speedbake', context);
-    loadState('The 9-5 Bake', context);
-    loadState('The Night Bake', context);
+    loadCheckState('The Speedbake', context);
+    loadCheckState('The 9-5 Bake', context);
+    loadCheckState('The Night Bake', context);
+    loadTimerState(context);
     return Scaffold(
       backgroundColor: kMainBackground,
       body: Center(

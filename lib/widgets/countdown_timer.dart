@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/timer_model.dart';
+import '../models/countdown_timer_model.dart';
 import '../models/notification_model.dart';
 import 'package:provider/provider.dart';
 import '../utils/constants.dart';
@@ -47,7 +47,8 @@ class _CountdownTimerState extends State<CountdownTimer>
 
   void initialize() {
     _isPaused = false;
-    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
+    CountdownTimerModel _timerModel =
+        Provider.of<CountdownTimerModel>(context, listen: false);
     NotificationModel _notificationModel =
         Provider.of<NotificationModel>(context, listen: false);
     _timerModel.startTimer();
@@ -59,7 +60,8 @@ class _CountdownTimerState extends State<CountdownTimer>
 
   void destruct() {
     _isPaused = true;
-    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
+    CountdownTimerModel _timerModel =
+        Provider.of<CountdownTimerModel>(context, listen: false);
     NotificationModel _notificationModel =
         Provider.of<NotificationModel>(context, listen: false);
     _timerModel.pauseTimer();
@@ -67,7 +69,8 @@ class _CountdownTimerState extends State<CountdownTimer>
   }
 
   Function timerPickerCallback() {
-    TimerModel _timerModel = Provider.of<TimerModel>(context, listen: false);
+    CountdownTimerModel _timerModel =
+        Provider.of<CountdownTimerModel>(context, listen: false);
     return (duration) {
       _timerModel.setRemainingTime(duration);
       if (!_isPaused) {
@@ -91,7 +94,7 @@ class _CountdownTimerState extends State<CountdownTimer>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 24.0),
-          Consumer<TimerModel>(
+          Consumer<CountdownTimerModel>(
             builder: (context, data, child) {
               String countdown = data.getRemainingTime()?.toString() ?? '';
               return countdown != '::'

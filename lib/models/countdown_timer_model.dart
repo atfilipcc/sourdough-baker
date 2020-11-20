@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'dart:async';
+import './time_model.dart';
 
-class TimerModel extends ChangeNotifier {
+class CountdownTimerModel extends ChangeNotifier {
   Duration _remainingTime;
   Timer _timerInstance;
   int _timerInterval;

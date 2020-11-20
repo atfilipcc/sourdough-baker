@@ -6,7 +6,8 @@ import './screens/choose_schedule.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import './screens/night_baker_screen.dart';
 import './screens/calculator_screen.dart';
-import './models/timer_model.dart';
+import 'models/countdown_timer_model.dart';
+import './models/time_model.dart';
 import './models/notification_model.dart';
 import './models/recipe_model.dart';
 
@@ -39,7 +40,9 @@ class SourdoughBaker extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<TimerModel>(create: (_) => TimerModel()),
+        ChangeNotifierProvider<TimeModel>(create: (_) => TimeModel()),
+        ChangeNotifierProvider<CountdownTimerModel>(
+            create: (_) => CountdownTimerModel()),
         ChangeNotifierProvider<RecipeModel>(create: (_) => RecipeModel()),
         ChangeNotifierProvider<NotificationModel>(
             create: (_) => NotificationModel()),

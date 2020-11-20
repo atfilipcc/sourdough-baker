@@ -14,6 +14,6 @@ class RecipeItemModel {
 
   void toggleDone() {
     isDone = !isDone;
-    recipes.save(this);
+    recipes.saveRecipeData(this);
   }
 }
